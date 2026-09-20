@@ -1,0 +1,14 @@
+[
+  { "name": "complete name needs no honorific warning", "fn": "de_honorific_warning", "location": "fixture", "input": "Frau Müller", "expected": null },
+  { "name": "titled name needs no honorific warning", "fn": "de_honorific_warning", "location": "fixture", "input": "Herr Dr. Müller", "expected": null },
+  { "name": "empty name covered by recipient warning", "fn": "de_honorific_warning", "location": "fixture", "input": "", "expected": null },
+  { "name": "whitespace name covered by recipient warning", "fn": "de_honorific_warning", "location": "fixture", "input": "   ", "expected": null },
+  { "name": "honorific-free german name warns", "fn": "de_honorific_warning", "location": "fixture", "input": "Jane Doe", "expected": "fixture: job.cl_recipient.name has no parsable Herr/Frau honorific; using generic salutation (provide e.g. \"Frau Dr. Müller\" for tailored opportunities)" },
+  { "name": "empty recipient warns", "fn": "recipient_salutation_warning", "location": "fixture", "input": "", "expected": "fixture: job.cl_recipient.name is empty; using generic salutation (provide a name for tailored opportunities)" },
+  { "name": "named recipient needs no warning", "fn": "recipient_salutation_warning", "location": "fixture", "input": "Dr. Jane Doe", "expected": null },
+  { "name": "whitespace recipient warns", "fn": "recipient_salutation_warning", "location": "fixture", "input": "   ", "expected": "fixture: job.cl_recipient.name is empty; using generic salutation (provide a name for tailored opportunities)" },
+  { "name": "title without surname warns", "fn": "de_honorific_warning", "location": "fixture", "input": "Herr Dr.", "expected": "fixture: job.cl_recipient.name has no parsable Herr/Frau honorific; using generic salutation (provide e.g. \"Frau Dr. Müller\" for tailored opportunities)" },
+  { "name": "abbreviated honorific warns", "fn": "de_honorific_warning", "location": "fixture", "input": "Hr. Müller", "expected": "fixture: job.cl_recipient.name has no parsable Herr/Frau honorific; using generic salutation (provide e.g. \"Frau Dr. Müller\" for tailored opportunities)" },
+  { "name": "single-token recipient needs no warning", "fn": "recipient_salutation_warning", "location": "fixture", "input": "Madonna", "expected": null },
+  { "name": "newline-only recipient warns", "fn": "recipient_salutation_warning", "location": "fixture", "input": "\t\n ", "expected": "fixture: job.cl_recipient.name is empty; using generic salutation (provide a name for tailored opportunities)" }
+]

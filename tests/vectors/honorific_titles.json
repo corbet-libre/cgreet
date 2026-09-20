@@ -1,0 +1,185 @@
+[
+  {
+    "name": "frau",
+    "fn": "salutation_honorific",
+    "input": "Frau Müller",
+    "expected": "frau"
+  },
+  {
+    "name": "herr",
+    "fn": "salutation_honorific",
+    "input": "Herr Müller",
+    "expected": "herr"
+  },
+  {
+    "name": "accusative herrn",
+    "fn": "salutation_honorific",
+    "input": "Herrn Müller",
+    "expected": "herr"
+  },
+  {
+    "name": "abbreviated herr rejected",
+    "fn": "salutation_honorific",
+    "input": "Hr. Müller",
+    "expected": ""
+  },
+  {
+    "name": "abbreviated frau rejected",
+    "fn": "salutation_honorific",
+    "input": "Fr. Müller",
+    "expected": ""
+  },
+  {
+    "name": "no honorific",
+    "fn": "salutation_honorific",
+    "input": "Jane Doe",
+    "expected": ""
+  },
+  {
+    "name": "empty",
+    "fn": "salutation_honorific",
+    "input": "",
+    "expected": ""
+  },
+  {
+    "name": "surname after title",
+    "fn": "salutation_surname",
+    "input": "Frau Dr. Müller",
+    "expected": "Müller"
+  },
+  {
+    "name": "title without surname",
+    "fn": "salutation_surname",
+    "input": "Herr Dr.",
+    "expected": ""
+  },
+  {
+    "name": "professor suppresses doctor",
+    "fn": "salutation_titles",
+    "input": "Herr Prof. Dr. Müller",
+    "expected": [
+      "Professor"
+    ]
+  },
+  {
+    "name": "doctor kept",
+    "fn": "salutation_titles",
+    "input": "Frau Dr. Müller",
+    "expected": [
+      "Dr."
+    ]
+  },
+  {
+    "name": "magister kept",
+    "fn": "salutation_titles",
+    "input": "Herr Mag. Müller",
+    "expected": [
+      "Mag."
+    ]
+  },
+  {
+    "name": "engineering title with internal period",
+    "fn": "salutation_titles",
+    "input": "Herr Dipl.-Ing. Müller",
+    "expected": [
+      "Dipl.-Ing."
+    ]
+  },
+  {
+    "name": "engineering title without hyphen",
+    "fn": "salutation_titles",
+    "input": "Herr Dipl.Ing. Müller",
+    "expected": [
+      "Dipl.-Ing."
+    ]
+  },
+  {
+    "name": "engineering title alone has no surname",
+    "fn": "salutation_surname",
+    "input": "Herr Dipl.-Ing.",
+    "expected": ""
+  },
+  {
+    "name": "non-ASCII title is not case-folded",
+    "fn": "salutation_titles",
+    "input": "Herr DİPL-ING Müller",
+    "expected": []
+  },
+  {
+    "name": "duplicate title kept once",
+    "fn": "salutation_titles",
+    "input": "Herr Dr. Dr. Müller",
+    "expected": [
+      "Dr."
+    ]
+  },
+  {
+    "name": "professor suppresses magister",
+    "fn": "salutation_titles",
+    "input": "Herr Prof. Mag. Müller",
+    "expected": [
+      "Professor"
+    ]
+  },
+  {
+    "name": "stacked titles kept in order",
+    "fn": "salutation_titles",
+    "input": "Herr Dr. Mag. Müller",
+    "expected": [
+      "Dr.",
+      "Mag."
+    ]
+  },
+  {
+    "name": "spelled-out magister kept",
+    "fn": "salutation_titles",
+    "input": "Herr Magister Müller",
+    "expected": [
+      "Mag."
+    ]
+  },
+  {
+    "name": "spelled-out professor kept",
+    "fn": "salutation_titles",
+    "input": "Herr Professor Müller",
+    "expected": [
+      "Professor"
+    ]
+  },
+  {
+    "name": "uppercase honorific folds",
+    "fn": "salutation_honorific",
+    "input": "HERR Müller",
+    "expected": "herr"
+  },
+  {
+    "name": "trailing-dot honorific folds",
+    "fn": "salutation_honorific",
+    "input": "Frau. Müller",
+    "expected": "frau"
+  },
+  {
+    "name": "english honorific rejected",
+    "fn": "salutation_honorific",
+    "input": "Mrs Müller",
+    "expected": ""
+  },
+  {
+    "name": "post-nominal grade ignored",
+    "fn": "salutation_surname",
+    "input": "Frau Müller PhD",
+    "expected": "Müller"
+  },
+  {
+    "name": "trailing grade ignored",
+    "fn": "salutation_surname",
+    "input": "Herr Müller MA",
+    "expected": "Müller"
+  },
+  {
+    "name": "filler alone has no surname",
+    "fn": "salutation_surname",
+    "input": "Dr.",
+    "expected": ""
+  }
+]

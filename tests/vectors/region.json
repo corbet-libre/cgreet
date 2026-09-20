@@ -1,0 +1,15 @@
+[
+  { "name": "parse ch", "fn": "region_parse", "input": "ch", "expected": "ch" },
+  { "name": "parse li", "fn": "region_parse", "input": "li", "expected": "li" },
+  { "name": "parse de", "fn": "region_parse", "input": "de", "expected": "de" },
+  { "name": "parse at", "fn": "region_parse", "input": "at", "expected": "at" },
+  { "name": "parse rejects uppercase", "fn": "region_parse", "input": "CH", "expected": null },
+  { "name": "parse rejects unknown", "fn": "region_parse", "input": "fr", "expected": null },
+  { "name": "parse rejects empty", "fn": "region_parse", "input": "", "expected": null },
+  { "name": "ch uses no comma", "fn": "region_uses_comma", "input": "ch", "expected": false },
+  { "name": "li uses no comma", "fn": "region_uses_comma", "input": "li", "expected": false },
+  { "name": "de uses comma", "fn": "region_uses_comma", "input": "de", "expected": true },
+  { "name": "at uses comma", "fn": "region_uses_comma", "input": "at", "expected": true },
+  { "name": "parse rejects trailing space", "fn": "region_parse", "input": "ch ", "expected": null },
+  { "name": "parse rejects mixed case", "fn": "region_parse", "input": "De", "expected": null }
+]
