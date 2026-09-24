@@ -19,7 +19,7 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = tomllib.loads((ROOT / "Cargo.toml").read_text())["package"]
 NAME, VERSION = PACKAGE["name"], PACKAGE["version"]
-JS = ROOT / "js" / "@corbet-foss" / NAME
+JS = ROOT / "js" / "@corbet-labs" / NAME
 
 
 def run(*args, cwd=None, env=None):
@@ -101,7 +101,7 @@ def javascript():
 
 
 def npm_tarball():
-    return JS / f"corbet-foss-{NAME}-{VERSION}.tgz"
+    return JS / f"corbet-labs-{NAME}-{VERSION}.tgz"
 
 
 def js_package():
@@ -225,7 +225,7 @@ def typst_preview():
         installed.mkdir(parents=True)
         expected_files = {"typst.toml", "README.md", "LICENSE", "LICENSE.md",
                           "LICENSES/MIT.txt", "LICENSES/Apache-2.0.txt",
-                          "LICENSES/LGPL-3.0-only WITH LGPL-3.0-linking-exception.txt", "LICENSES/LGPL-3.0-linking-exception.txt", "LICENSES/GPL-3.0-only.txt",
+                          "LICENSES/LGPL-3.0-linking-exception.txt", "LICENSES/GPL-3.0-only.txt",
                           "typst/greet.typ", "tables/de.json"}
         expected_directories = {".", "LICENSES", "tables", "typst"}
         with tarfile.open(candidate, "r:gz") as archive:
@@ -242,7 +242,7 @@ def typst_preview():
         if package["license"] != "LGPL-3.0-only WITH LGPL-3.0-linking-exception":
             raise ValueError("Typst preview license differs from this release")
         for filename in ("LICENSE", "LICENSE.md", "LICENSES/MIT.txt", "LICENSES/Apache-2.0.txt",
-                         "LICENSES/LGPL-3.0-only WITH LGPL-3.0-linking-exception.txt", "LICENSES/LGPL-3.0-linking-exception.txt", "LICENSES/GPL-3.0-only.txt"):
+                         "LICENSES/LGPL-3.0-linking-exception.txt", "LICENSES/GPL-3.0-only.txt"):
             if (installed / filename).read_bytes() != (ROOT / filename).read_bytes():
                 raise ValueError(f"Typst preview license text differs: {filename}")
         readme = (installed / "README.md").read_text(encoding="utf-8")
@@ -313,11 +313,11 @@ def published(channel):
                 shutil.copyfile(JS / "scripts" / name, scratch / name)
             (scratch / "package.json").write_text('{"private":true,"type":"module"}\n')
         if channel == "npm":
-            run("npm", "install", "--ignore-scripts", "--no-audit", "--no-fund", f"@corbet-foss/{NAME}@{VERSION}", cwd=scratch)
+            run("npm", "install", "--ignore-scripts", "--no-audit", "--no-fund", f"@corbet-labs/{NAME}@{VERSION}", cwd=scratch)
             run("node", "consumer.mjs", cwd=scratch)
             run("bun", "consumer.mjs", cwd=scratch)
         elif channel == "jsr":
-            run("deno", "eval", "--min-dep-age=0", f"import * as api from 'jsr:@corbet-foss/{NAME}@{VERSION}'; import {{verify}} from './verify-api.mjs'; verify(api);", cwd=scratch)
+            run("deno", "eval", "--min-dep-age=0", f"import * as api from 'jsr:@corbet-labs/{NAME}@{VERSION}'; import {{verify}} from './verify-api.mjs'; verify(api);", cwd=scratch)
         elif channel == "python":
             venv = scratch / "consumer"
             run("uv", "venv", venv)
@@ -371,7 +371,7 @@ if __name__ == "__main__":
             source = Path(temporary) / NAME
             shutil.copytree(ROOT, source, ignore=shutil.ignore_patterns(".git", "target", "node_modules", "dist"))
             ROOT = source
-            JS = ROOT / "js" / "@corbet-foss" / NAME
+            JS = ROOT / "js" / "@corbet-labs" / NAME
             CHECKS[arguments.check]()
     else:
         CHECKS[arguments.check]()

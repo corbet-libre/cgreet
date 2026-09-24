@@ -1,6 +1,6 @@
 {
-  "name": "@corbet-foss/cgreet",
-  "version": "0.3.0",
+  "name": "@corbet-labs/cgreet",
+  "version": "0.3.1",
   "exports": "./src/index.ts",
   "license": "LGPL-3.0-only",
   "publish": {
