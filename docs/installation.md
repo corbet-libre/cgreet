@@ -69,8 +69,8 @@ in the Typst web app or a local Typst document:
 #import "@preview/cgreet:0.2.1": *
 ```
 
-For a local installation, download `cgreet-0.3.1-typst.tar.gz` from the matching GitHub release and
-extract its contents into `typst/packages/local/cgreet/0.3.1` under your
+For a local installation, check out the release tag `v0.3.1` of the source repository and copy `typst.toml`,
+`README.md`, `LICENSE`, `LICENSES`, `typst` and `tables` into `typst/packages/local/cgreet/0.3.1` under your
 [Typst data directory](https://github.com/typst/packages#local-packages):
 
 | System | Data directory |
@@ -83,8 +83,9 @@ extract its contents into `typst/packages/local/cgreet/0.3.1` under your
 #import "@local/cgreet:0.3.1": *
 ```
 
-The archive includes its manifest, tables, source, and licenses. CI compiles
-an example against a fresh installation of the actual archive with Typst 0.15.
+Those files are the package: its manifest, tables, source, and licenses. CI packs them with
+`scripts/package-typst.py` and compiles an example against a fresh installation of that archive with Typst 0.15;
+the archive is not a release file.
 For the Typst web app, upload the extracted files and import the entrypoint
 listed in `typst.toml` by its relative path.
 

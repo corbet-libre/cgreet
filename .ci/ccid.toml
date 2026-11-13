@@ -30,10 +30,6 @@ commands = [["python3", ".ci/check.py", "rust-dependencies"]]
 kind = "commands"
 commands = [["python3", ".ci/check.py", "js-package"]]
 
-[checks.jsr-package]
-kind = "commands"
-commands = [["python3", ".ci/check.py", "jsr-package"]]
-
 [checks.js-pnpm]
 kind = "commands"
 commands = [["python3", ".ci/check.py", "js-pnpm"]]
@@ -62,31 +58,16 @@ commands = [["python3", ".ci/check.py", "typst-preview"]]
 kind = "commands"
 commands = [["python3", ".ci/check.py", "published-npm"]]
 
-[checks.published-jsr]
-kind = "commands"
-commands = [["python3", ".ci/check.py", "published-jsr"]]
-
 [checks.published-python]
 kind = "commands"
 commands = [["python3", ".ci/check.py", "published-python"]]
 
-# Manual publication adapter; no product compilation occurs.
-[checks.release]
-kind = "commands"
-commands = [["python3", ".ci/publish.py"]]
-
-# Syntax and manual publication contract; no product build or network.
-[checks.release-config]
-kind = "commands"
-commands = [["python3", ".ci/release-check.py"]]
-
-# verify aggregates the cached subset of the hosted Linux route (ci.yml case branches):
-# rust + ccid-defined standalone packaging/integration selectors in dependency
-# order. Registry/live-read selectors run FRESH after the cached verify via `ccid check`
-# (never `cached`): published-npm/jsr/python (+ resolve-dependencies for cletter;
-# licenses + jsr-registry + python-registry for ccht). Publication and artifact-manifest
-# selectors (release, rust-dependencies, typst-preview, registry-resolved previews) stay
-# defined and callable via the old ccid route; they are not in the default job.
+# verify aggregates the cached checks of the verify job in dependency order: rust and the
+# standalone packaging/integration selectors of .ci/check.py. The registry/live-read
+# selectors (published-npm/python) run FRESH after the cached verify via `ccid check`
+# (never `cached`). The artifact-manifest selectors (rust-dependencies, typst-preview,
+# registry-resolved previews) stay defined and callable by hand; they are not in the job.
+# The packages of a release are made by `pack` (below), once, in the release run.
 # No cache_inputs (broad default); no cache_outputs (packaging receipts land in ARTIFACT_ROOT,
 # outside the repo tree); no cache_env (no shells; dynamic paths must not key the cache).
 # No deny.toml ships, so there is no advisories check; freshness is carried by the
@@ -97,12 +78,26 @@ kind = "commands"
 commands = [["bash", ".ci/verify.sh"]]
 cache_tools = [["rustc", "-vV"], ["cargo", "--version"], ["python3", "--version"], ["node", "--version"], ["bun", "--version"], ["npm", "--version"], ["deno", "--version"], ["uv", "--version"]]
 
+# The packages of a release (operating model R23, R8): crate, npm tarball and PyPI files, made once by the
+# release run before anything is public. A pack is never a check of a job. JSR is not published for now (R46).
+[checks.pack]
+kind = "pack"
+crates = "."
+npm = "js/@corbet-labs/cgreet"
+pypi = "py"
+
+[release]
+kind = "library"
+version = "Cargo.toml"
+registries = ["crates", "npm", "pypi"]
+build = ["pack"]
+notes = "CHANGELOG.md"
+
 [render]
-render_schema = 2
+render_schema = 3
 [jobs.verify]
 scheduler = "forgejo"
 runs_on = "linux"
-checks = ["verify", "published-npm", "published-jsr", "published-python"]
+checks = ["verify", "published-npm", "published-python"]
 workflow = "ci"
 command = ["bash", ".ci/run-cached.sh"]
-events = ["push", "manual"]
